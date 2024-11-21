@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CGPA Calculator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #FFA726, #FFFFFF);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px 30px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+
+        .logo img {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #FF7300;
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            border: 1px solid #FF7300;
+            text-align: center;
+            padding: 10px;
+        }
+
+        th {
+            background-color: #FF7300;
+            color: white;
+        }
+
+        input {
+            padding: 8px;
+            width: 100px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #FF7300;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #e56700;
+        }
+
+        .result {
+            font-weight: bold;
+            font-size: 18px;
+            color: #333;
+            margin-top: 10px;
+        }
+
+        .author {
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        .author a {
+            text-decoration: none;
+            color: #FF7300;
+            font-weight: bold;
+        }
+
+        .author a:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <img src="uiu_logo.jpg" alt="UIU Logo">
+        </div>
+        <h1>CGPA Calculator</h1>
+        <p>Enter your marks for each course to calculate your CGPA.</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Marks (%)</th>
+                </tr>
+            </thead>
+            <tbody id="courseTable">
+                <tr>
+                    <td>Course 1</td>
+                    <td><input type="number" min="0" max="100" class="marks" placeholder="Enter marks"></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <button onclick="addCourse()">Add Course</button>
+        <button onclick="calculateCGPA()">Calculate CGPA</button>
+        <p class="result" id="cgpaResult"></p>
+        <div class="author">Created by: <a href="https://adhamzarif.github.io/My-Website/" target="_blank">Adham Zarif</a></div>
+    </div>
+    <footer>
+        United International University | CGPA Calculator
+    </footer>
+
+    <script>
+        let courseCount = 1;
+
+        function addCourse() {
+            courseCount++;
+            const table = document.getElementById("courseTable");
+            const newRow = document.createElement("tr");
+            newRow.innerHTML = `
+                <td>Course ${courseCount}</td>
+                <td><input type="number" min="0" max="100" class="marks" placeholder="Enter marks"></td>
+            `;
+            table.appendChild(newRow);
+        }
+
+        function calculateCGPA() {
+            const marksInputs = document.querySelectorAll(".marks");
+            let totalGradePoints = 0;
+            let courseCount = 0;
+
+            marksInputs.forEach(input => {
+                const marks = parseFloat(input.value);
+                if (!isNaN(marks)) {
+                    totalGradePoints += getGradePoint(marks);
+                    courseCount++;
+                }
+            });
+
+            const cgpa = (courseCount > 0) ? (totalGradePoints / courseCount).toFixed(2) : 0;
+            document.getElementById("cgpaResult").textContent = `Your CGPA is: ${cgpa}`;
+        }
+
+        function getGradePoint(marks) {
+            if (marks >= 90) return 4.00;
+            if (marks >= 86) return 3.67;
+            if (marks >= 82) return 3.33;
+            if (marks >= 78) return 3.00;
+            if (marks >= 74) return 2.67;
+            if (marks >= 70) return 2.33;
+            if (marks >= 66) return 2.00;
+            if (marks >= 62) return 1.67;
+            if (marks >= 58) return 1.33;
+            if (marks >= 55) return 1.00;
+            return 0.00;
+        }
+    </script>
+</body>
+</html>
